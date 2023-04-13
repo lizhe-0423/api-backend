@@ -1,0 +1,45 @@
+server:
+  port: 8090
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=source, lizhi
+      routes:
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+#        - id: add_request_header_route
+#          uri: http://localhost:8123
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - AddRequestHeader=lizhi, swag
+#            - AddRequestParameter=name, dog
+#            - name: CircuitBreaker
+#              args:
+#                name: myCircuitBreaker
+#                fallbackUri: forward:/fallback
+#        - id: lizhi-fallback
+#          uri: https://lizhi.icu
+#          predicates:
+#            - Path=/fallback
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+#          日志级别 trace 最低
+          gateway: trace
+
+dubbo:
+  application:
+    name: dubbo-springboot-demo-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://localhost:8848
+
